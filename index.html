@@ -92,7 +92,7 @@ img{max-width:100%;display:block;}
   .studio-grid > .preview-panel{order:-1;}
 }
 .panel{background:var(--panel);border:2px solid #000;border-radius:var(--radius-xl);padding:22px;backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:var(--shadow-soft);}
-.panel h3{font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-1);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+.panel h3{font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#000;margin:0 0 16px;display:flex;align-items:center;gap:8px;}
 
 .dropzone{border:2.5px dashed #000;border-radius:var(--radius-lg);padding:26px 16px;text-align:center;cursor:pointer;transition:all .2s var(--ease);position:relative;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
 .dropzone:hover,.dropzone.dragover{border-color:var(--grad-c);background:rgba(77,216,255,0.06);}
@@ -122,18 +122,18 @@ input[type=file]{display:none;}
 .card-photo-frame .empty-face{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:rgba(30,25,55,0.4);text-align:center;padding:14px;}
 
 
-.idcard-topband{position:absolute;left:0;right:0;top:0;height:15%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16%;}
+.idcard-topband{position:absolute;left:0;right:0;top:0;height:18%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16% 3% 16%;clip-path:polygon(0 0,100% 0,100% 82%,0 100%);}
 .idcard-toplabel{color:#fff;font-weight:800;font-size:15px;letter-spacing:0.2em;padding-left:0.2em;}
 .idcard-topsub{color:rgba(255,255,255,0.75);font-size:10px;letter-spacing:0.2em;padding-left:0.2em;font-weight:700;}
 
 .idcard-namewrap{position:absolute;left:6%;right:6%;top:64%;text-align:center;z-index:3;}
 .idcard-namewrap .f-name{font-family:"Nanum Gothic",sans-serif;font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
-.idcard-namewrap .f-detail{font-size:9px;color:#6b7190;letter-spacing:0.02em;}
+.idcard-namewrap .f-detail{font-size:11.5px;color:#6b7190;letter-spacing:0.02em;}
 
 .idcard-sign{position:absolute;left:8%;top:81.5%;font-family:"Nanum Pen Script","Dancing Script",cursive;font-size:21px;color:#4c3a6e;display:none;z-index:3;}
 .idcard-sign.show{display:block;}
 
-.idcard-botband{position:absolute;left:0;right:0;bottom:0;height:9%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;align-items:center;justify-content:center;}
+.idcard-botband{position:absolute;left:0;right:0;bottom:0;height:12%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;align-items:center;justify-content:center;padding-top:2%;clip-path:polygon(0 18%,100% 0,100% 100%,0 100%);}
 .idcard-school{color:#fff;font-weight:800;font-size:9.5px;letter-spacing:0.04em;text-align:center;padding:0 14%;}
 
 .card-shine{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,0.28) 34%,transparent 48%);transform:translateX(-120%);pointer-events:none;z-index:6;}
@@ -154,7 +154,7 @@ input[type=file]{display:none;}
 .field-checkbox input{width:18px;height:18px;}
 .field-empty{font-size:12.5px;color:var(--text-2);line-height:1.6;}
 
-.action-row{display:flex;flex-wrap:wrap;gap:10px;width:100%;max-width:380px;justify-content:center;margin:0 auto;}
+.action-row{display:flex;flex-wrap:wrap;gap:10px;width:100%;max-width:380px;justify-content:center;margin:14px auto 0;}
 .action-row .btn-secondary,.action-row .btn-primary{flex:1;min-width:130px;}
 
 #toastContainer{position:fixed;bottom:22px;right:22px;left:22px;z-index:100;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;}
@@ -266,7 +266,6 @@ const TEMPLATE = {
   guide:'請上傳照片，並讓臉部對齊框內，就像證件照一樣。', autoFit:{x:0,y:0,scale:1.15},
   fields:[
     {key:'name', label:'姓名', type:'text', placeholder:'例：나마네', default:'나마네'},
-    {key:'engName', label:'英文姓名', type:'text', default:'NAMANE'},
     {key:'studentId', label:'學號', type:'text', default:'2026034'},
     {key:'dept', label:'科系／班級', type:'text', default:'實用音樂科 1班'},
     {key:'school', label:'學校名稱', type:'text', default:'NAMANE HIGH SCHOOL'},
@@ -421,20 +420,23 @@ function buildExportCanvas(onReady){
   ctx.fillStyle = '#f4f2fb'; ctx.fillRect(0,0,W,H);
 
   function drawForeground(){
-    const topBandH = H*0.15, botBandH = H*0.09;
+    const topBandH = H*0.18, botBandH = H*0.12;
     let bandGrad = ctx.createLinearGradient(0,0,W,topBandH);
     bandGrad.addColorStop(0,'#7c4fe0'); bandGrad.addColorStop(1,'#4c1fb0');
-    ctx.fillStyle = bandGrad; ctx.fillRect(0,0,W,topBandH);
+    ctx.fillStyle = bandGrad;
+    ctx.beginPath();
+    ctx.moveTo(0,0); ctx.lineTo(W,0); ctx.lineTo(W, topBandH*0.82); ctx.lineTo(0, topBandH); ctx.closePath();
+    ctx.fill();
     ctx.fillStyle='#fff'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif'; ctx.textAlign='center';
-    drawSpacedText(ctx,'學生證', W/2, H*0.065, 4*S);
+    drawSpacedText(ctx,'學生證', W/2, H*0.075, 4*S);
     ctx.font='700 '+(10*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
-    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.11, 1.2*S);
+    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.13, 1.2*S);
 
     ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px "Nanum Gothic", sans-serif';
     drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
-    ctx.font=(9*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
+    ctx.font=(11.5*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
     const detail = [state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
-    ctx.fillText(detail, W/2, H*0.695);
+    ctx.fillText(detail, W/2, H*0.7);
     ctx.textAlign='left';
 
     if(state.fields.decoSign){
@@ -444,7 +446,10 @@ function buildExportCanvas(onReady){
 
     bandGrad = ctx.createLinearGradient(0,H-botBandH,0,H);
     bandGrad.addColorStop(0,'#7c4fe0'); bandGrad.addColorStop(1,'#4c1fb0');
-    ctx.fillStyle = bandGrad; ctx.fillRect(0,H-botBandH,W,botBandH);
+    ctx.fillStyle = bandGrad;
+    ctx.beginPath();
+    ctx.moveTo(0,(H-botBandH)+botBandH*0.18); ctx.lineTo(W,H-botBandH); ctx.lineTo(W,H); ctx.lineTo(0,H); ctx.closePath();
+    ctx.fill();
     const schoolText = state.fields.school || 'NAMANE HIGH SCHOOL';
     let schoolFontPx = 9.5*S;
     const schoolMaxWidth = W*0.7;
