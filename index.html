@@ -124,12 +124,11 @@ input[type=file]{display:none;}
 
 .idcard-topband{position:absolute;left:0;right:0;top:0;height:15%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16%;}
 .idcard-toplabel{color:#fff;font-weight:800;font-size:15px;letter-spacing:0.2em;padding-left:0.2em;}
-.idcard-dash{color:rgba(255,255,255,0.5);font-size:9px;line-height:1;}
-.idcard-topsub{color:rgba(255,255,255,0.75);font-size:7.5px;letter-spacing:0.25em;padding-left:0.25em;font-weight:700;}
+.idcard-topsub{color:rgba(255,255,255,0.75);font-size:10px;letter-spacing:0.2em;padding-left:0.2em;font-weight:700;}
 
 .idcard-namewrap{position:absolute;left:6%;right:6%;top:64%;text-align:center;z-index:3;}
 .idcard-namewrap .f-name{font-family:"Nanum Gothic",sans-serif;font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
-.idcard-namewrap .f-detail{font-size:6.8px;color:#6b7190;letter-spacing:0.02em;}
+.idcard-namewrap .f-detail{font-size:9px;color:#6b7190;letter-spacing:0.02em;}
 
 .idcard-sign{position:absolute;left:8%;top:81.5%;font-family:"Nanum Pen Script","Dancing Script",cursive;font-size:21px;color:#4c3a6e;display:none;z-index:3;}
 .idcard-sign.show{display:block;}
@@ -156,7 +155,7 @@ input[type=file]{display:none;}
 .field-empty{font-size:12.5px;color:var(--text-2);line-height:1.6;}
 
 .action-row{display:flex;flex-wrap:wrap;gap:10px;width:100%;max-width:380px;justify-content:center;margin:0 auto;}
-.action-row .btn-secondary{flex:1;min-width:130px;}
+.action-row .btn-secondary,.action-row .btn-primary{flex:1;min-width:130px;}
 
 #toastContainer{position:fixed;bottom:22px;right:22px;left:22px;z-index:100;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;}
 .toast{background:#fff;border:1px solid var(--border-strong);color:var(--text-0);padding:13px 18px;border-radius:14px;font-size:13.5px;box-shadow:0 16px 40px rgba(30,20,60,0.18);display:flex;align-items:center;gap:10px;animation:toastIn .35s var(--ease);max-width:320px;pointer-events:auto;}
@@ -174,7 +173,7 @@ footer b{color:var(--text-1);}
   .panel{padding:16px;}
   .card-stage{max-width:240px;}
   .action-row{max-width:100%;}
-  .action-row .btn-secondary{min-width:0;flex:1 1 45%;padding:13px 10px;font-size:13px;}
+  .action-row .btn-secondary,.action-row .btn-primary{min-width:0;flex:1 1 45%;padding:13px 10px;font-size:13px;}
 }
 </style>
 </head>
@@ -226,7 +225,6 @@ footer b{color:var(--text-1);}
 
           <div class="idcard-topband">
             <div class="idcard-toplabel">學生證</div>
-            <div class="idcard-dash">—</div>
             <div class="idcard-topsub">STUDENT ID CARD</div>
           </div>
           <div class="idcard-namewrap">
@@ -242,7 +240,7 @@ footer b{color:var(--text-1);}
       </div>
 
       <div class="action-row">
-        <button class="btn btn-secondary" id="downloadBtn">下載 PNG</button>
+        <button class="btn btn-primary" id="downloadBtn" style="padding:13px 22px;font-size:14px;">下載 PNG</button>
         <a class="btn btn-secondary" id="orderBtn" href="https://bit.ly/4fPlaOn" target="_blank" rel="noopener noreferrer">NAMANE 卡優惠購買</a>
       </div>
     </div>
@@ -332,7 +330,7 @@ function onFieldChange(e){
 function applyFieldsToPreview(){
   idcardSchool.textContent = state.fields.school || 'NAMANE HIGH SCHOOL';
   idcardName.textContent = state.fields.name || '';
-  idcardDetail.textContent = [state.fields.engName, state.fields.studentId ? ('No. '+state.fields.studentId) : '', state.fields.dept].filter(Boolean).join('  ·  ');
+  idcardDetail.textContent = [state.fields.studentId ? ('No. '+state.fields.studentId) : '', state.fields.dept].filter(Boolean).join('  ·  ');
   idcardSign.classList.toggle('show', !!state.fields.decoSign);
   idcardSign.textContent = state.fields.name || 'Signature';
 }
@@ -429,15 +427,13 @@ function buildExportCanvas(onReady){
     ctx.fillStyle = bandGrad; ctx.fillRect(0,0,W,topBandH);
     ctx.fillStyle='#fff'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif'; ctx.textAlign='center';
     drawSpacedText(ctx,'學生證', W/2, H*0.065, 4*S);
-    ctx.font=(9*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)';
-    ctx.fillText('—', W/2, H*0.09);
-    ctx.font='700 '+(7*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
-    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.115, 1.5*S);
+    ctx.font='700 '+(10*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
+    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.11, 1.2*S);
 
     ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px "Nanum Gothic", sans-serif';
     drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
-    ctx.font=(6.8*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
-    const detail = [state.fields.engName, state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
+    ctx.font=(9*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
+    const detail = [state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
     ctx.fillText(detail, W/2, H*0.695);
     ctx.textAlign='left';
 
