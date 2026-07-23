@@ -7,7 +7,7 @@
 <meta name="description" content="上傳照片，打造專屬你的 NAMANE 學生證卡片。">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Nanum+Gothic:wght@700;800&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg-0:#ffffff; --panel:#ffffff; --panel-strong:#f7f4fd;
@@ -56,7 +56,7 @@ img{max-width:100%;display:block;}
 @keyframes shake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-8px);}40%,60%{transform:translateX(8px);}}
 
 .hero{position:relative;z-index:2;padding:96px 32px 56px;max-width:1100px;margin:0 auto;text-align:center;}
-.hero h1{font-size:clamp(32px,6vw,70px);font-weight:800;letter-spacing:-0.035em;line-height:1.04;margin:0 0 20px;
+.hero h1{font-size:clamp(32px,6vw,70px);font-weight:900;letter-spacing:-0.035em;line-height:1.04;margin:0 0 20px;
   background:linear-gradient(100deg,#7c4fe0 0%,#ff6fd8 22%,#4dd8ff 44%,#a78bfa 66%,#7c4fe0 88%,#ff6fd8 100%);
   background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
   opacity:0;animation:fadeUp .8s var(--ease) forwards, hologram 6s linear infinite;}
@@ -80,19 +80,21 @@ img{max-width:100%;display:block;}
 .editor-section{position:relative;z-index:2;padding:20px 24px 100px;max-width:1320px;margin:0 auto;}
 .editor-title{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
 .editor-title h2{font-size:24px;font-weight:800;margin:0;}
-.editor-title .editor-emoji{width:24px;height:24px;color:var(--text-0);}
+.icon-badge{width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg,var(--grad-b),var(--grad-c));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px rgba(124,79,224,0.4);}
+.editor-title .editor-emoji{width:18px;height:18px;color:#fff;}
 .editor-title p{margin:0;color:var(--text-1);font-size:13.5px;}
-.editor-guide{margin:14px 0 22px;padding:11px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--text-1);display:flex;align-items:center;gap:8px;}
+.editor-guide{margin:14px 0 26px;padding:22px 28px;background:#efe6ff;border:none;font-size:13px;color:#4c3a70;display:flex;align-items:center;gap:8px;box-shadow:0 6px 16px rgba(124,79,224,0.18);transform:rotate(-0.5deg);
+  clip-path:polygon(0% 4%,4% 0%,9% 3%,15% 1%,21% 4%,28% 0%,35% 3%,42% 1%,49% 4%,56% 0%,63% 3%,70% 1%,77% 4%,84% 0%,91% 3%,96% 1%,100% 4%,100% 95%,95% 100%,90% 96%,84% 99%,77% 96%,70% 100%,63% 97%,56% 100%,49% 96%,42% 99%,35% 96%,28% 100%,21% 97%,15% 100%,9% 96%,4% 99%,0% 96%);}
 
 .studio-grid{display:grid;grid-template-columns:280px minmax(0,1fr) 320px;gap:20px;align-items:start;}
 @media (max-width:1080px){
   .studio-grid{grid-template-columns:1fr;}
   .studio-grid > .preview-panel{order:-1;}
 }
-.panel{background:var(--panel);border:2px solid var(--border-strong);border-radius:var(--radius-xl);padding:22px;backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:var(--shadow-soft);}
+.panel{background:var(--panel);border:2px solid #000;border-radius:var(--radius-xl);padding:22px;backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:var(--shadow-soft);}
 .panel h3{font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-1);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
 
-.dropzone{border:2.5px dashed var(--border-strong);border-radius:var(--radius-lg);padding:26px 16px;text-align:center;cursor:pointer;transition:all .2s var(--ease);position:relative;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.dropzone{border:2.5px dashed #000;border-radius:var(--radius-lg);padding:26px 16px;text-align:center;cursor:pointer;transition:all .2s var(--ease);position:relative;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
 .dropzone:hover,.dropzone.dragover{border-color:var(--grad-c);background:rgba(77,216,255,0.06);}
 .dropzone .dz-icon{width:32px;height:32px;margin:0 auto 12px;}
 .dropzone .dz-icon img{width:100%;height:100%;object-fit:contain;}
@@ -126,7 +128,7 @@ input[type=file]{display:none;}
 .idcard-topsub{color:rgba(255,255,255,0.75);font-size:7.5px;letter-spacing:0.25em;padding-left:0.25em;font-weight:700;}
 
 .idcard-namewrap{position:absolute;left:6%;right:6%;top:64%;text-align:center;z-index:3;}
-.idcard-namewrap .f-name{font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
+.idcard-namewrap .f-name{font-family:"Nanum Gothic",sans-serif;font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
 .idcard-namewrap .f-detail{font-size:6.8px;color:#6b7190;letter-spacing:0.02em;}
 
 .idcard-sign{position:absolute;left:8%;top:81.5%;font-family:"Nanum Pen Script","Dancing Script",cursive;font-size:21px;color:#4c3a6e;display:none;z-index:3;}
@@ -147,7 +149,7 @@ input[type=file]{display:none;}
 
 .fields-panel .field-row{margin-bottom:14px;}
 .field-label{display:block;font-size:12px;color:var(--text-1);margin-bottom:6px;font-weight:600;}
-.fields-panel input[type=text],.fields-panel select{width:100%;background:var(--panel-strong);border:2px solid var(--border-strong);border-radius:10px;color:var(--text-0);padding:12px 12px;font-size:14px;font-family:inherit;}
+.fields-panel input[type=text],.fields-panel select{width:100%;background:var(--panel-strong);border:2px solid #000;border-radius:10px;color:var(--text-0);padding:12px 12px;font-size:14px;font-family:inherit;}
 .fields-panel input[type=text]:focus,.fields-panel select:focus{border-color:var(--grad-c);}
 .field-checkbox{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-1);cursor:pointer;padding:4px 0;}
 .field-checkbox input{width:18px;height:18px;}
@@ -192,7 +194,7 @@ footer b{color:var(--text-1);}
 
 <section class="editor-section" id="editor">
   <div class="editor-title">
-    <svg class="editor-emoji" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="8.3" cy="10.8" r="2.1" fill="currentColor"/><path d="M5 15.6c0-1.7 1.4-2.8 3.3-2.8s3.3 1.1 3.3 2.8" fill="currentColor"/><rect x="14" y="9" width="6" height="1.7" rx="0.85" fill="currentColor"/><rect x="14" y="13.1" width="6" height="1.7" rx="0.85" fill="currentColor"/></svg>
+    <span class="icon-badge"><svg class="editor-emoji" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="3" stroke="currentColor" stroke-width="2"/><circle cx="8.3" cy="10.8" r="2.1" fill="currentColor"/><path d="M5 15.6c0-1.7 1.4-2.8 3.3-2.8s3.3 1.1 3.3 2.8" fill="currentColor"/><rect x="14" y="9" width="6" height="1.7" rx="0.85" fill="currentColor"/><rect x="14" y="13.1" width="6" height="1.7" rx="0.85" fill="currentColor"/></svg></span>
     <h2>偶像學生證</h2>
   </div>
   <p style="margin:2px 0 0;color:var(--text-1);font-size:13.5px;">最愛學生證卡片產生器</p>
@@ -432,7 +434,7 @@ function buildExportCanvas(onReady){
     ctx.font='700 '+(7*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
     drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.115, 1.5*S);
 
-    ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif';
+    ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px "Nanum Gothic", sans-serif';
     drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
     ctx.font=(6.8*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
     const detail = [state.fields.engName, state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
