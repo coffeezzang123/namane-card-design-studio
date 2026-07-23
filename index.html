@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>NAMANE Design Studio — Design. Share. Print.</title>
 <meta name="description" content="上傳照片，打造專屬你的 NAMANE 學生證卡片。">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
 <style>
 :root{
   --bg-0:#ffffff; --panel:#ffffff; --panel-strong:#f7f4fd;
@@ -37,8 +40,8 @@ img{max-width:100%;display:block;}
 .nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
   background:rgba(255,255,255,0.85);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
   border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap;}
-.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-0.02em;font-size:17px;color:var(--text-0);}
-.nav-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--grad-b),var(--grad-c));display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 4px 14px rgba(124,79,224,0.4);flex-shrink:0;}
+.nav-brand{display:flex;align-items:center;gap:8px;font-weight:600;letter-spacing:-0.02em;font-size:17px;color:var(--text-0);}
+.nav-logo{font-weight:900;letter-spacing:-0.02em;color:var(--grad-b);display:inline-block;}
 .nav-tag{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--grad-b);background:var(--panel-strong);border:1px solid var(--border);padding:3px 9px;border-radius:100px;margin-left:6px;}
 .nav-right{display:flex;align-items:center;gap:18px;font-size:13px;color:var(--text-1);}
 .nav-right span span{opacity:0.55;}
@@ -56,7 +59,10 @@ img{max-width:100%;display:block;}
 
 .hero{position:relative;z-index:2;padding:96px 32px 56px;max-width:1100px;margin:0 auto;text-align:center;}
 .hero h1{font-size:clamp(32px,6vw,70px);font-weight:800;letter-spacing:-0.035em;line-height:1.04;margin:0 0 20px;
-  color:var(--text-0);opacity:0;animation:fadeUp .8s var(--ease) forwards;}
+  background:linear-gradient(100deg,#7c4fe0 0%,#ff6fd8 22%,#4dd8ff 44%,#a78bfa 66%,#7c4fe0 88%,#ff6fd8 100%);
+  background-size:300% auto;-webkit-background-clip:text;background-clip:text;color:transparent;
+  opacity:0;animation:fadeUp .8s var(--ease) forwards, hologram 6s linear infinite;}
+@keyframes hologram{0%{background-position:0% center;}100%{background-position:300% center;}}
 .tagline{display:flex;flex-direction:column;gap:2px;align-items:center;font-size:clamp(22px,4vw,42px);font-weight:700;letter-spacing:-0.02em;margin-bottom:32px;}
 .tagline span{opacity:0;transform:translateY(14px);animation:wordIn .6s var(--ease) forwards;color:var(--text-1);}
 .tagline span:nth-child(1){animation-delay:.15s;}
@@ -106,7 +112,7 @@ input[type=file]{display:none;}
 
 .preview-panel{display:flex;flex-direction:column;align-items:center;gap:18px;}
 .card-stage{position:relative;width:100%;max-width:290px;}
-.namane-card{position:relative;width:100%;aspect-ratio:0.63;border-radius:0;overflow:hidden;background:#f4f2fb;box-shadow:var(--shadow-card);touch-action:none;user-select:none;transition:transform .5s var(--ease);}
+.namane-card{position:relative;width:100%;aspect-ratio:644/1040;border-radius:0;overflow:hidden;background:#f4f2fb;box-shadow:var(--shadow-card);touch-action:none;user-select:none;transition:transform .5s var(--ease);}
 .namane-card.just-updated{animation:cardPop .55s var(--ease);}
 @keyframes cardPop{0%{transform:scale(0.97);}55%{transform:scale(1.015);}100%{transform:scale(1);}}
 
@@ -115,7 +121,6 @@ input[type=file]{display:none;}
 .card-photo-frame img:active{cursor:grabbing;}
 .card-photo-frame .empty-face{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:rgba(30,25,55,0.4);text-align:center;padding:14px;}
 
-.card-chip{position:absolute;left:50%;top:78%;transform:translate(-50%,-50%);width:17%;height:8%;border-radius:12%;background:linear-gradient(135deg,#ffe9a8,#d8b25a);box-shadow:0 2px 10px rgba(0,0,0,0.4);z-index:5;}
 
 .idcard-topband{position:absolute;left:0;right:0;top:0;height:15%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16%;}
 .idcard-toplabel{color:#fff;font-weight:800;font-size:15px;letter-spacing:0.2em;padding-left:0.2em;}
@@ -126,7 +131,7 @@ input[type=file]{display:none;}
 .idcard-namewrap .f-name{font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
 .idcard-namewrap .f-detail{font-size:6.8px;color:#6b7190;letter-spacing:0.02em;}
 
-.idcard-sign{position:absolute;left:8%;top:83.5%;font-family:"Brush Script MT",cursive;font-style:italic;font-size:11px;color:#6b7190;display:none;z-index:3;}
+.idcard-sign{position:absolute;left:8%;top:81.5%;font-family:"Nanum Pen Script","Dancing Script",cursive;font-size:21px;color:#4c3a6e;display:none;z-index:3;}
 .idcard-sign.show{display:block;}
 
 .idcard-botband{position:absolute;left:0;right:0;bottom:0;height:9%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;align-items:center;justify-content:center;}
@@ -166,10 +171,6 @@ input[type=file]{display:none;}
 .modal h3{margin:0 0 6px;font-size:18px;font-weight:800;}
 .modal p{margin:0 0 20px;font-size:13px;color:var(--text-1);line-height:1.6;}
 .modal-preview{width:100%;border-radius:14px;margin-bottom:18px;border:1px solid var(--border);}
-.btn-instagram{width:100%;background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4);color:#fff;padding:15px;font-size:15px;box-shadow:0 10px 26px -6px rgba(221,42,123,0.55);margin-bottom:14px;}
-.btn-instagram:hover{box-shadow:0 14px 34px -6px rgba(221,42,123,0.75);}
-.share-link-row{display:flex;gap:8px;}
-.share-link-row input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;color:var(--text-1);padding:10px 12px;font-size:12px;}
 .modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--panel-strong);border:1px solid var(--border);color:var(--text-0);cursor:pointer;font-size:15px;}
 .btn-app{width:100%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);color:#fff;padding:15px;font-size:15px;box-shadow:0 10px 26px -6px rgba(124,79,224,0.55);}
 
@@ -196,7 +197,7 @@ footer b{color:var(--text-1);}
 <div class="bg-blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
 
 <header class="nav">
-  <div class="nav-brand"><div class="nav-mark">💳</div>NAMANE Design Studio<span class="nav-tag">BETA</span></div>
+  <div class="nav-brand"><span class="nav-logo">NAMANE</span> Design Studio<span class="nav-tag">BETA</span></div>
   <div class="nav-right"><span>探索 <span>— 即將推出</span></span><span>我的卡片 <span>— 即將推出</span></span></div>
 </header>
 
@@ -239,7 +240,6 @@ footer b{color:var(--text-1);}
             <img id="cardPhoto" alt="" style="display:none;">
             <div class="empty-face" id="emptyFace">請上傳照片<br>即可預覽卡片</div>
           </div>
-          <div class="card-chip"></div>
 
           <div class="idcard-topband">
             <div class="idcard-toplabel">學生證</div>
@@ -259,9 +259,8 @@ footer b{color:var(--text-1);}
       </div>
 
       <div class="action-row">
-        <button class="btn btn-secondary" id="downloadBtn">⬇ 下載 PNG</button>
-        <button class="btn btn-secondary" id="shareBtn">📤 分享設計</button>
-        <button class="btn btn-secondary" id="orderBtn">💳 使用 NAMANE 卡享優惠購買</button>
+        <button class="btn btn-secondary" id="downloadBtn">下載 PNG</button>
+        <button class="btn btn-secondary" id="orderBtn">NAMANE 卡優惠購買</button>
       </div>
     </div>
 
@@ -272,26 +271,15 @@ footer b{color:var(--text-1);}
   </div>
 </section>
 
-<footer>NAMANE Card Design Studio — <b>內部原型 v0.1</b> · i-aurora · 尚未串接正式營運系統</footer>
+<footer>NAMANE Card Design Studio</footer>
 
-<canvas id="exportCanvas" width="630" height="1000" style="display:none;"></canvas>
+<canvas id="exportCanvas" width="644" height="1040" style="display:none;"></canvas>
 <div id="toastContainer"></div>
-
-<div class="modal-backdrop" id="shareModal">
-  <div class="modal">
-    <button class="modal-close" id="modalClose">✕</button>
-    <h3>分享我的卡片</h3>
-    <p>分享到 Instagram 限時動態，讓大家看看你的 NAMANE 學生證。</p>
-    <img id="shareModalPreview" class="modal-preview" alt="你的 NAMANE 卡片">
-    <button class="btn btn-instagram" id="instagramShareBtn">📸 分享到 Instagram 限時動態</button>
-    <div class="share-link-row"><input type="text" id="shareLinkInput" readonly><button class="btn btn-secondary" id="copyLinkBtn">複製連結</button></div>
-  </div>
-</div>
 
 <div class="modal-backdrop" id="orderModal">
   <div class="modal">
     <button class="modal-close" id="orderModalClose">✕</button>
-    <h3>💳 使用 NAMANE 卡享優惠購買</h3>
+    <h3>NAMANE 卡優惠購買</h3>
     <p>前往連結，使用 NAMANE 卡即可享有這個設計的專屬優惠購買方案。</p>
     <button class="btn btn-app" id="orderModalGo">立即前往</button>
   </div>
@@ -301,13 +289,12 @@ footer b{color:var(--text-1);}
 (function(){
 "use strict";
 
-/* TODO: replace with the real NAMANE app store / deep link URL once provided */
-const NAMANE_APP_LINK = 'https://namane.app';
+const NAMANE_APP_LINK = 'https://bit.ly/4fPlaOn';
 
 const TEMPLATE = {
   guide:'請上傳照片，並讓臉部對齊框內，就像證件照一樣。', autoFit:{x:0,y:0,scale:1.15},
   fields:[
-    {key:'name', label:'姓名', type:'text', placeholder:'例：金스탠 / 王小明', default:'김스탠'},
+    {key:'name', label:'姓名', type:'text', placeholder:'例：나마네', default:'김스탠'},
     {key:'engName', label:'英文姓名', type:'text', default:'KIM STAN'},
     {key:'studentId', label:'學號', type:'text', default:'2026034'},
     {key:'dept', label:'科系／班級', type:'text', default:'實用音樂科 1班'},
@@ -324,14 +311,12 @@ const dropzone = $('dropzone'), fileInput = $('fileInput');
 const adjustControls = $('adjustControls'), zoomSlider = $('zoomSlider'), zoomVal = $('zoomVal'), autoFitBtn = $('autoFitBtn');
 const cardPhoto = $('cardPhoto'), emptyFace = $('emptyFace'), namaneCard = $('namaneCard');
 const fieldsForm = $('fieldsForm');
-const downloadBtn = $('downloadBtn'), shareBtn = $('shareBtn'), orderBtn = $('orderBtn');
+const downloadBtn = $('downloadBtn'), orderBtn = $('orderBtn');
 const processingOverlay = $('processingOverlay');
 const cardNameEl = $('cardName');
 const idcardSchool = $('idcardSchool'), idcardName = $('idcardName'), idcardDetail = $('idcardDetail'), idcardSign = $('idcardSign');
 const exportCanvas = $('exportCanvas');
-const shareModal = $('shareModal'), shareModalPreview = $('shareModalPreview'), shareLinkInput = $('shareLinkInput');
 const orderModal = $('orderModal');
-let lastBlob = null;
 
 function roundRectPath(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
 function drawSpacedText(ctx,text,cx,y,spacing){
@@ -396,7 +381,7 @@ function setPhoto(dataUrl){
   $('dzRemove').addEventListener('click', (e)=>{ e.stopPropagation(); resetPhoto(); });
 
   adjustControls.classList.remove('hidden');
-  downloadBtn.disabled = false; shareBtn.disabled = false;
+  downloadBtn.disabled = false;
 
   processingOverlay.classList.add('active');
   setTimeout(()=>{
@@ -414,7 +399,7 @@ function resetPhoto(){
   dropzone.classList.remove('has-photo');
   dropzone.innerHTML = '<div class="dz-empty"><div class="dz-icon">🖼️</div><div class="dz-title">將照片拖曳到這裡</div><div class="dz-sub">或點擊瀏覽檔案 — JPG / PNG</div></div>';
   adjustControls.classList.add('hidden');
-  downloadBtn.disabled = true; shareBtn.disabled = true;
+  downloadBtn.disabled = true;
 }
 function readFile(file){
   if(!file || !file.type.startsWith('image/')){ showToast('請選擇圖片檔案', '⚠️'); return; }
@@ -465,13 +450,6 @@ function buildExportCanvas(onReady){
   roundRectPath(ctx,0,0,W,H,0); ctx.save(); ctx.clip();
   ctx.fillStyle = '#f4f2fb'; ctx.fillRect(0,0,W,H);
 
-  function drawChip(){
-    const cw=W*0.17, ch=H*0.08, cx=W*0.5-cw/2, cy=H*0.78-ch/2;
-    const chipGrad = ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);
-    chipGrad.addColorStop(0,'#ffe9a8'); chipGrad.addColorStop(1,'#d8b25a');
-    ctx.fillStyle=chipGrad; roundRectPath(ctx,cx,cy,cw,ch,Math.min(cw,ch)*0.28); ctx.fill();
-  }
-
   function drawForeground(){
     const topBandH = H*0.15, botBandH = H*0.09;
     let bandGrad = ctx.createLinearGradient(0,0,W,topBandH);
@@ -492,8 +470,8 @@ function buildExportCanvas(onReady){
     ctx.textAlign='left';
 
     if(state.fields.decoSign){
-      ctx.font='italic 700 '+(11*S)+'px "Brush Script MT", cursive'; ctx.fillStyle='#6b7190';
-      ctx.fillText(state.fields.name || 'Signature', W*0.08, H*0.845);
+      ctx.font=(21*S)+'px "Nanum Pen Script", "Dancing Script", cursive'; ctx.fillStyle='#4c3a6e';
+      ctx.fillText(state.fields.name || 'Signature', W*0.08, H*0.825);
     }
 
     bandGrad = ctx.createLinearGradient(0,H-botBandH,0,H);
@@ -511,7 +489,6 @@ function buildExportCanvas(onReady){
     ctx.fillStyle='#fff';
     ctx.fillText(schoolText, W/2, H-botBandH*0.4);
     ctx.textAlign='left';
-    drawChip();
   }
 
   function finish(){ ctx.restore(); onReady(); }
@@ -558,44 +535,6 @@ downloadBtn.addEventListener('click', ()=>{
   });
 });
 
-/* ================= share (Instagram Story) ================= */
-function openShareModal(dataUrl, blob){
-  shareModalPreview.src = dataUrl;
-  shareLinkInput.value = 'https://namane.studio/c/' + Math.random().toString(36).slice(2,10);
-  lastBlob = blob;
-  shareModal.classList.add('open');
-}
-function closeShareModal(){ shareModal.classList.remove('open'); }
-$('modalClose').addEventListener('click', closeShareModal);
-shareModal.addEventListener('click', e=>{ if(e.target===shareModal) closeShareModal(); });
-
-$('copyLinkBtn').addEventListener('click', ()=>{
-  shareLinkInput.select();
-  if(navigator.clipboard) navigator.clipboard.writeText(shareLinkInput.value).then(()=>showToast('連結已複製', '🔗')).catch(()=>showToast('連結已複製', '🔗'));
-});
-
-$('instagramShareBtn').addEventListener('click', async ()=>{
-  if(navigator.share && navigator.canShare && lastBlob){
-    const file = new File([lastBlob], 'namane-card.png', { type:'image/png' });
-    if(navigator.canShare({ files:[file] })){
-      try{
-        await navigator.share({ files:[file], title:'NAMANE 學生證', text:'我的 NAMANE 學生證卡片！' });
-        closeShareModal();
-      }catch(err){ /* user cancelled share sheet — no-op */ }
-      return;
-    }
-  }
-  const a = document.createElement('a'); a.href = shareModalPreview.src; a.download = 'namane-card-'+Date.now()+'.png';
-  document.body.appendChild(a); a.click(); a.remove();
-  window.open('https://www.instagram.com/', '_blank');
-  showToast('圖片已下載，請在 Instagram 開啟限時動態並從相簿選擇上傳', '📸');
-});
-
-shareBtn.addEventListener('click', ()=>{
-  if(needsPhotoButMissing()){ showToast('請先上傳照片', '⚠️'); return; }
-  withExportedCard((dataUrl, blob)=> openShareModal(dataUrl, blob));
-});
-
 /* ================= order (NAMANE app) ================= */
 orderBtn.addEventListener('click', ()=> orderModal.classList.add('open') );
 $('orderModalClose').addEventListener('click', ()=> orderModal.classList.remove('open') );
@@ -605,7 +544,7 @@ $('orderModalGo').addEventListener('click', ()=>{
   orderModal.classList.remove('open');
 });
 
-document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeShareModal(); orderModal.classList.remove('open'); } });
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ orderModal.classList.remove('open'); } });
 
 /* ================= nav ================= */
 $('startBtn').addEventListener('click', ()=> $('editor').scrollIntoView({behavior:'smooth'}) );
@@ -616,7 +555,7 @@ const io = new IntersectionObserver(entries=>{
 }, {threshold:0.12});
 document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
 
-downloadBtn.disabled = true; shareBtn.disabled = true;
+downloadBtn.disabled = true;
 
 })();
 </script>
