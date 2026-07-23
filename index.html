@@ -126,12 +126,9 @@ input[type=file]{display:none;}
 .idcard-toplabel{color:#fff;font-weight:800;font-size:15px;letter-spacing:0.2em;padding-left:0.2em;}
 .idcard-topsub{color:rgba(255,255,255,0.75);font-size:10px;letter-spacing:0.2em;padding-left:0.2em;font-weight:700;}
 
-.idcard-namewrap{position:absolute;left:6%;right:6%;top:64%;text-align:center;z-index:3;}
-.idcard-namewrap .f-name{font-family:"Nanum Gothic",sans-serif;font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
-.idcard-namewrap .f-detail{font-size:11.5px;color:#6b7190;letter-spacing:0.02em;}
-
-.idcard-sign{position:absolute;left:8%;top:81.5%;font-family:"Nanum Pen Script","Dancing Script",cursive;font-size:21px;color:#4c3a6e;display:none;z-index:3;}
-.idcard-sign.show{display:block;}
+.idcard-namewrap{position:absolute;left:6%;right:6%;top:69%;text-align:center;z-index:3;}
+.idcard-namewrap .f-name{font-family:"Nanum Gothic",sans-serif;font-size:18px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:6px;}
+.idcard-namewrap .f-detail{font-size:13.5px;color:#6b7190;letter-spacing:0.02em;}
 
 .idcard-botband{position:absolute;left:0;right:0;bottom:0;height:12%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;align-items:center;justify-content:center;padding-top:2%;clip-path:polygon(0 18%,100% 0,100% 100%,0 100%);}
 .idcard-school{color:#fff;font-weight:800;font-size:9.5px;letter-spacing:0.04em;text-align:center;padding:0 14%;}
@@ -231,7 +228,6 @@ footer b{color:var(--text-1);}
             <div class="f-name" id="idcardName">나마네</div>
             <div class="f-detail" id="idcardDetail">NAMANE · No. 2026034 · 실용음악과 1반</div>
           </div>
-          <div class="idcard-sign show" id="idcardSign">나마네</div>
           <div class="idcard-botband"><div class="idcard-school" id="idcardSchool">NAMANE HIGH SCHOOL</div></div>
 
           <div class="card-shine"></div>
@@ -268,8 +264,6 @@ const TEMPLATE = {
     {key:'name', label:'姓名', type:'text', placeholder:'例：나마네', default:'나마네'},
     {key:'studentId', label:'學號', type:'text', default:'2026034'},
     {key:'dept', label:'科系／班級', type:'text', default:'實用音樂科 1班'},
-    {key:'school', label:'學校名稱', type:'text', default:'NAMANE HIGH SCHOOL'},
-    {key:'decoSign', label:'簽名裝飾', type:'checkbox', default:true},
   ]
 };
 
@@ -284,7 +278,7 @@ const fieldsForm = $('fieldsForm');
 const downloadBtn = $('downloadBtn');
 const processingOverlay = $('processingOverlay');
 const cardNameEl = $('cardName');
-const idcardSchool = $('idcardSchool'), idcardName = $('idcardName'), idcardDetail = $('idcardDetail'), idcardSign = $('idcardSign');
+const idcardSchool = $('idcardSchool'), idcardName = $('idcardName'), idcardDetail = $('idcardDetail');
 const exportCanvas = $('exportCanvas');
 
 function roundRectPath(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
@@ -330,8 +324,6 @@ function applyFieldsToPreview(){
   idcardSchool.textContent = state.fields.school || 'NAMANE HIGH SCHOOL';
   idcardName.textContent = state.fields.name || '';
   idcardDetail.textContent = [state.fields.studentId ? ('No. '+state.fields.studentId) : '', state.fields.dept].filter(Boolean).join('  ·  ');
-  idcardSign.classList.toggle('show', !!state.fields.decoSign);
-  idcardSign.textContent = state.fields.name || 'Signature';
 }
 
 TEMPLATE.fields.forEach(f=>{ state.fields[f.key] = f.default!==undefined ? f.default : (f.type==='checkbox'?true:''); });
@@ -427,22 +419,19 @@ function buildExportCanvas(onReady){
     ctx.beginPath();
     ctx.moveTo(0,0); ctx.lineTo(W,0); ctx.lineTo(W, topBandH*0.82); ctx.lineTo(0, topBandH); ctx.closePath();
     ctx.fill();
+    ctx.textBaseline='middle';
     ctx.fillStyle='#fff'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif'; ctx.textAlign='center';
-    drawSpacedText(ctx,'學生證', W/2, H*0.078, 4*S);
+    drawSpacedText(ctx,'學生證', W/2, H*0.0626, 4*S);
     ctx.font='700 '+(10*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
-    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.112, 1.2*S);
+    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.1053, 1.2*S);
+    ctx.textBaseline='alphabetic';
 
-    ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px "Nanum Gothic", sans-serif';
-    drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
-    ctx.font=(11.5*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
+    ctx.fillStyle='#221c3a'; ctx.font='800 '+(18*S)+'px "Nanum Gothic", sans-serif';
+    drawSpacedText(ctx, state.fields.name||'', W/2, H*0.705, 8*S);
+    ctx.font=(13.5*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
     const detail = [state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
-    ctx.fillText(detail, W/2, H*0.7);
+    ctx.fillText(detail, W/2, H*0.745);
     ctx.textAlign='left';
-
-    if(state.fields.decoSign){
-      ctx.font=(21*S)+'px "Nanum Pen Script", "Dancing Script", cursive'; ctx.fillStyle='#4c3a6e';
-      ctx.fillText(state.fields.name || 'Signature', W*0.08, H*0.825);
-    }
 
     bandGrad = ctx.createLinearGradient(0,H-botBandH,0,H);
     bandGrad.addColorStop(0,'#7c4fe0'); bandGrad.addColorStop(1,'#4c1fb0');
