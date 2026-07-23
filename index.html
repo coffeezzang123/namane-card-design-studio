@@ -428,9 +428,9 @@ function buildExportCanvas(onReady){
     ctx.moveTo(0,0); ctx.lineTo(W,0); ctx.lineTo(W, topBandH*0.82); ctx.lineTo(0, topBandH); ctx.closePath();
     ctx.fill();
     ctx.fillStyle='#fff'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif'; ctx.textAlign='center';
-    drawSpacedText(ctx,'學生證', W/2, H*0.075, 4*S);
+    drawSpacedText(ctx,'學生證', W/2, H*0.078, 4*S);
     ctx.font='700 '+(10*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
-    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.13, 1.2*S);
+    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.112, 1.2*S);
 
     ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px "Nanum Gothic", sans-serif';
     drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
