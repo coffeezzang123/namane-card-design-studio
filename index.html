@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>NAMANE Design Studio — Design. Share. Print.</title>
+<meta name="description" content="上傳照片，打造專屬你的 NAMANE 學生證卡片。">
+<style>
+:root{
+  --bg-0:#08070d; --panel:rgba(255,255,255,0.055); --panel-strong:rgba(255,255,255,0.09);
+  --border:rgba(255,255,255,0.12); --border-strong:rgba(255,255,255,0.22);
+  --text-0:#f5f4fb; --text-1:rgba(245,244,251,0.68); --text-2:rgba(245,244,251,0.42);
+  --grad-a:#ff5fa2; --grad-b:#8a5cff; --grad-c:#4dd8ff; --accent:#a68bff;
+  --radius-xl:28px; --radius-lg:20px; --radius-md:14px;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --shadow-soft:0 20px 60px rgba(0,0,0,0.45);
+  --shadow-card:0 30px 80px -20px rgba(138,92,255,0.45), 0 10px 30px rgba(0,0,0,0.5);
+}
+*,*::before,*::after{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{margin:0;min-height:100vh;background:var(--bg-0);color:var(--text-0);
+  font-family:-apple-system,BlinkMacSystemFont,"PingFang TC","Microsoft JhengHei","Noto Sans TC","Malgun Gothic","Segoe UI",Pretendard,"Helvetica Neue",Arial,sans-serif;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;}
+::selection{background:var(--grad-b);color:#fff;}
+button{font-family:inherit;}
+img{max-width:100%;display:block;}
+:focus-visible{outline:2px solid var(--grad-c);outline-offset:2px;}
+.hidden{display:none !important;}
+
+.bg-blobs{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none;}
+.blob{position:absolute;border-radius:50%;filter:blur(90px);opacity:0.5;animation:drift 26s ease-in-out infinite;}
+.blob.b1{width:520px;height:520px;background:radial-gradient(circle at 30% 30%,var(--grad-a),transparent 70%);top:-160px;left:-120px;}
+.blob.b2{width:600px;height:600px;background:radial-gradient(circle at 60% 40%,var(--grad-b),transparent 70%);top:10%;right:-200px;animation-delay:-8s;}
+.blob.b3{width:480px;height:480px;background:radial-gradient(circle at 50% 50%,var(--grad-c),transparent 70%);bottom:-180px;left:20%;animation-delay:-16s;}
+@keyframes drift{0%,100%{transform:translate(0,0) scale(1);}50%{transform:translate(30px,-20px) scale(1.06);}}
+
+.nav{position:sticky;top:0;z-index:40;display:flex;align-items:center;justify-content:space-between;padding:16px 32px;
+  background:rgba(10,9,16,0.55);backdrop-filter:blur(20px) saturate(160%);-webkit-backdrop-filter:blur(20px) saturate(160%);
+  border-bottom:1px solid var(--border);gap:12px;flex-wrap:wrap;}
+.nav-brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:-0.02em;font-size:17px;}
+.nav-mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--grad-a),var(--grad-b),var(--grad-c));display:flex;align-items:center;justify-content:center;font-size:14px;box-shadow:0 4px 14px rgba(138,92,255,0.5);flex-shrink:0;}
+.nav-tag{font-size:11px;font-weight:700;letter-spacing:0.08em;color:var(--text-1);background:var(--panel);border:1px solid var(--border);padding:3px 9px;border-radius:100px;margin-left:6px;}
+.nav-right{display:flex;align-items:center;gap:18px;font-size:13px;color:var(--text-1);}
+.nav-right span span{opacity:0.55;}
+
+.btn{border:none;cursor:pointer;border-radius:100px;font-weight:600;transition:transform .18s var(--ease),box-shadow .18s var(--ease),background .18s var(--ease),opacity .18s var(--ease);display:inline-flex;align-items:center;justify-content:center;gap:8px;white-space:nowrap;}
+.btn:active{transform:scale(0.96);}
+.btn-primary{background:linear-gradient(135deg,var(--grad-a),var(--grad-b) 55%,var(--grad-c));color:#fff;padding:16px 34px;font-size:16px;box-shadow:0 12px 30px -6px rgba(138,92,255,0.65);}
+.btn-primary:hover{transform:translateY(-2px) scale(1.015);box-shadow:0 18px 40px -6px rgba(138,92,255,0.8);}
+.btn-secondary{background:var(--panel-strong);color:var(--text-0);border:1px solid var(--border-strong);padding:13px 22px;font-size:14px;}
+.btn-secondary:hover{background:rgba(255,255,255,0.14);border-color:rgba(255,255,255,0.32);}
+.btn-ghost{background:transparent;color:var(--text-1);border:1px solid var(--border);padding:11px 18px;font-size:13px;}
+.btn-ghost:hover{color:var(--text-0);border-color:var(--border-strong);}
+.shake{animation:shake .45s var(--ease);}
+@keyframes shake{10%,90%{transform:translateX(-2px);}20%,80%{transform:translateX(4px);}30%,50%,70%{transform:translateX(-8px);}40%,60%{transform:translateX(8px);}}
+
+.hero{position:relative;z-index:2;padding:88px 32px 50px;max-width:1100px;margin:0 auto;text-align:center;}
+.hero-eyebrow{font-size:13px;font-weight:700;letter-spacing:0.14em;color:var(--accent);text-transform:uppercase;margin-bottom:18px;opacity:0;animation:fadeUp .7s var(--ease) forwards;}
+.hero h1{font-size:clamp(32px,6vw,70px);font-weight:800;letter-spacing:-0.035em;line-height:1.04;margin:0 0 20px;
+  background:linear-gradient(120deg,#fff 30%,var(--grad-c) 55%,var(--grad-a) 75%);-webkit-background-clip:text;background-clip:text;color:transparent;background-size:200% auto;
+  animation:fadeUp .8s var(--ease) forwards, sheen 7s linear infinite 1.2s;opacity:0;}
+.tagline{display:flex;flex-direction:column;gap:2px;align-items:center;font-size:clamp(22px,4vw,42px);font-weight:700;letter-spacing:-0.02em;margin-bottom:32px;}
+.tagline span{opacity:0;transform:translateY(14px);animation:wordIn .6s var(--ease) forwards;color:var(--text-1);}
+.tagline span:nth-child(1){animation-delay:.15s;}
+.tagline span:nth-child(2){animation-delay:.32s;}
+.tagline span:nth-child(3){animation-delay:.49s;}
+.tagline span.hl{color:#fff;position:relative;}
+.tagline span.hl::after{content:"";position:absolute;left:2%;right:2%;bottom:-4px;height:9px;border-radius:6px;background:linear-gradient(90deg,var(--grad-a),var(--grad-b),var(--grad-c));opacity:0.55;z-index:-1;}
+.hero-sub{max-width:540px;margin:0 auto 32px;color:var(--text-1);font-size:16px;line-height:1.6;opacity:0;animation:fadeUp .8s var(--ease) .55s forwards;}
+.hero-cta{opacity:0;animation:fadeUp .8s var(--ease) .68s forwards;}
+.hero-hint{margin-top:16px;font-size:12.5px;color:var(--text-2);opacity:0;animation:fadeUp .8s var(--ease) .8s forwards;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px);}to{opacity:1;transform:translateY(0);}}
+@keyframes wordIn{to{opacity:1;transform:translateY(0);}}
+@keyframes sheen{0%{background-position:0% center;}100%{background-position:200% center;}}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .7s var(--ease),transform .7s var(--ease);}
+.reveal.in{opacity:1;transform:translateY(0);}
+
+/* ===== Editor ===== */
+.editor-section{position:relative;z-index:2;padding:20px 24px 100px;max-width:1320px;margin:0 auto;}
+.editor-title{display:flex;align-items:baseline;gap:10px;flex-wrap:wrap;}
+.editor-title h2{font-size:24px;font-weight:800;margin:0;}
+.editor-title .editor-emoji{font-size:24px;}
+.editor-title p{margin:0;color:var(--text-1);font-size:13.5px;}
+.editor-guide{margin:14px 0 22px;padding:11px 16px;background:var(--panel);border:1px solid var(--border);border-radius:12px;font-size:13px;color:var(--text-1);display:flex;align-items:center;gap:8px;}
+
+.studio-grid{display:grid;grid-template-columns:280px minmax(0,1fr) 320px;gap:20px;align-items:start;}
+@media (max-width:1080px){
+  .studio-grid{grid-template-columns:1fr;}
+  .studio-grid > .preview-panel{order:-1;}
+}
+.panel{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius-xl);padding:22px;backdrop-filter:blur(24px) saturate(160%);-webkit-backdrop-filter:blur(24px) saturate(160%);box-shadow:var(--shadow-soft);}
+.panel h3{font-size:13px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-1);margin:0 0 16px;display:flex;align-items:center;gap:8px;}
+
+.dropzone{border:1.5px dashed var(--border-strong);border-radius:var(--radius-lg);padding:26px 16px;text-align:center;cursor:pointer;transition:all .2s var(--ease);position:relative;min-height:160px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;}
+.dropzone:hover,.dropzone.dragover{border-color:var(--grad-c);background:rgba(77,216,255,0.06);}
+.dropzone .dz-icon{font-size:30px;}
+.dropzone .dz-title{font-size:14px;font-weight:600;}
+.dropzone .dz-sub{font-size:12px;color:var(--text-2);}
+.dropzone.has-photo{padding:0;overflow:hidden;min-height:auto;}
+.dropzone.has-photo img{width:100%;height:180px;object-fit:cover;border-radius:calc(var(--radius-lg) - 1px);}
+.dz-remove{position:absolute;top:8px;right:8px;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.55);color:#fff;border:none;cursor:pointer;font-size:15px;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);}
+input[type=file]{display:none;}
+
+.adjust-controls{margin-top:18px;padding-top:16px;border-top:1px solid var(--border);}
+.adjust-controls .label-row{display:flex;justify-content:space-between;font-size:12px;color:var(--text-2);margin-bottom:6px;}
+.adjust-controls input[type=range]{width:100%;accent-color:var(--grad-c);height:28px;}
+.drag-hint{font-size:11.5px;color:var(--text-2);margin-top:10px;text-align:center;}
+
+.preview-panel{display:flex;flex-direction:column;align-items:center;gap:18px;}
+.card-stage{position:relative;width:100%;max-width:290px;}
+.namane-card{position:relative;width:100%;aspect-ratio:0.63;border-radius:0;overflow:hidden;background:#f4f2fb;box-shadow:var(--shadow-card);touch-action:none;user-select:none;transition:transform .5s var(--ease);}
+.namane-card.just-updated{animation:cardPop .55s var(--ease);}
+@keyframes cardPop{0%{transform:scale(0.97);}55%{transform:scale(1.015);}100%{transform:scale(1);}}
+
+.card-photo-frame{position:absolute;left:50%;top:18%;width:58%;height:44%;transform:translateX(-50%);border-radius:8px;overflow:hidden;background:linear-gradient(180deg,#c7cbe0,#9aa0c2);box-shadow:0 6px 16px rgba(0,0,0,0.18);}
+.card-photo-frame img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;cursor:grab;}
+.card-photo-frame img:active{cursor:grabbing;}
+.card-photo-frame .empty-face{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:12.5px;color:rgba(30,25,55,0.4);text-align:center;padding:14px;}
+
+.card-chip{position:absolute;left:50%;top:78%;transform:translate(-50%,-50%);width:17%;height:8%;border-radius:12%;background:linear-gradient(135deg,#ffe9a8,#d8b25a);box-shadow:0 2px 10px rgba(0,0,0,0.4);z-index:5;}
+
+.idcard-topband{position:absolute;left:0;right:0;top:0;height:15%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;padding:0 16%;}
+.idcard-toplabel{color:#fff;font-weight:800;font-size:15px;letter-spacing:0.2em;padding-left:0.2em;}
+.idcard-dash{color:rgba(255,255,255,0.5);font-size:9px;line-height:1;}
+.idcard-topsub{color:rgba(255,255,255,0.75);font-size:7.5px;letter-spacing:0.25em;padding-left:0.25em;font-weight:700;}
+
+.idcard-namewrap{position:absolute;left:6%;right:6%;top:64%;text-align:center;z-index:3;}
+.idcard-namewrap .f-name{font-size:15px;font-weight:800;color:#221c3a;letter-spacing:0.35em;padding-left:0.35em;margin-bottom:4px;}
+.idcard-namewrap .f-detail{font-size:6.8px;color:#6b7190;letter-spacing:0.02em;}
+
+.idcard-sign{position:absolute;left:8%;top:83.5%;font-family:"Brush Script MT",cursive;font-style:italic;font-size:11px;color:#6b7190;display:none;z-index:3;}
+.idcard-sign.show{display:block;}
+
+.idcard-botband{position:absolute;left:0;right:0;bottom:0;height:9%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);z-index:2;display:flex;align-items:center;justify-content:center;}
+.idcard-school{color:#fff;font-weight:800;font-size:9.5px;letter-spacing:0.04em;text-align:center;padding:0 14%;}
+
+.card-shine{position:absolute;inset:0;background:linear-gradient(115deg,transparent 20%,rgba(255,255,255,0.28) 34%,transparent 48%);transform:translateX(-120%);pointer-events:none;z-index:6;}
+.namane-card.just-updated .card-shine{animation:shineSweep .8s ease-out;}
+@keyframes shineSweep{to{transform:translateX(120%);}}
+
+.processing-overlay{position:absolute;inset:0;border-radius:0;z-index:20;background:rgba(10,8,16,0.72);backdrop-filter:blur(6px);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;opacity:0;pointer-events:none;transition:opacity .25s var(--ease);}
+.processing-overlay.active{opacity:1;pointer-events:all;}
+.spinner{width:34px;height:34px;border-radius:50%;border:3px solid rgba(255,255,255,0.18);border-top-color:var(--grad-c);animation:spin .8s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+.processing-text{font-size:13px;color:#fff;font-weight:600;}
+
+.fields-panel .field-row{margin-bottom:14px;}
+.field-label{display:block;font-size:12px;color:var(--text-1);margin-bottom:6px;font-weight:600;}
+.fields-panel input[type=text],.fields-panel select{width:100%;background:var(--panel-strong);border:1px solid var(--border);border-radius:10px;color:var(--text-0);padding:12px 12px;font-size:14px;font-family:inherit;}
+.fields-panel input[type=text]:focus,.fields-panel select:focus{border-color:var(--grad-c);}
+.field-checkbox{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--text-1);cursor:pointer;padding:4px 0;}
+.field-checkbox input{width:18px;height:18px;}
+.field-empty{font-size:12.5px;color:var(--text-2);line-height:1.6;}
+
+.action-row{display:flex;flex-wrap:wrap;gap:10px;width:100%;max-width:380px;justify-content:center;margin:0 auto;}
+.action-row .btn-secondary{flex:1;min-width:130px;}
+
+#toastContainer{position:fixed;bottom:22px;right:22px;left:22px;z-index:100;display:flex;flex-direction:column;gap:10px;align-items:flex-end;pointer-events:none;}
+.toast{background:rgba(20,17,28,0.92);border:1px solid var(--border-strong);color:#fff;padding:13px 18px;border-radius:14px;font-size:13.5px;box-shadow:0 16px 40px rgba(0,0,0,0.5);display:flex;align-items:center;gap:10px;backdrop-filter:blur(16px);animation:toastIn .35s var(--ease);max-width:320px;pointer-events:auto;}
+.toast.out{animation:toastOut .3s var(--ease) forwards;}
+@keyframes toastIn{from{opacity:0;transform:translateY(12px) scale(0.96);}to{opacity:1;transform:translateY(0) scale(1);}}
+@keyframes toastOut{to{opacity:0;transform:translateY(8px) scale(0.96);}}
+
+.modal-backdrop{position:fixed;inset:0;background:rgba(6,5,10,0.66);backdrop-filter:blur(6px);z-index:90;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .25s var(--ease);padding:20px;}
+.modal-backdrop.open{opacity:1;pointer-events:all;}
+.modal{position:relative;background:#15121e;border:1px solid var(--border-strong);border-radius:24px;padding:28px;width:340px;max-width:100%;box-shadow:0 30px 80px rgba(0,0,0,0.6);transform:scale(0.92);transition:transform .25s var(--ease);}
+.modal-backdrop.open .modal{transform:scale(1);}
+.modal h3{margin:0 0 6px;font-size:18px;font-weight:800;}
+.modal p{margin:0 0 20px;font-size:13px;color:var(--text-1);line-height:1.6;}
+.modal-preview{width:100%;border-radius:14px;margin-bottom:18px;border:1px solid var(--border);}
+.btn-instagram{width:100%;background:linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4);color:#fff;padding:15px;font-size:15px;box-shadow:0 10px 26px -6px rgba(221,42,123,0.55);margin-bottom:14px;}
+.btn-instagram:hover{box-shadow:0 14px 34px -6px rgba(221,42,123,0.75);}
+.share-link-row{display:flex;gap:8px;}
+.share-link-row input{flex:1;background:var(--panel);border:1px solid var(--border);border-radius:10px;color:var(--text-1);padding:10px 12px;font-size:12px;}
+.modal-close{position:absolute;top:16px;right:16px;width:32px;height:32px;border-radius:50%;background:var(--panel);border:1px solid var(--border);color:#fff;cursor:pointer;font-size:15px;}
+.btn-app{width:100%;background:linear-gradient(135deg,#7c4fe0,#4c1fb0);color:#fff;padding:15px;font-size:15px;box-shadow:0 10px 26px -6px rgba(124,79,224,0.55);}
+
+footer{position:relative;z-index:2;text-align:center;padding:36px 24px 48px;color:var(--text-2);font-size:12px;border-top:1px solid var(--border);margin-top:20px;}
+footer b{color:var(--text-1);}
+
+@media (max-width:640px){
+  .nav{padding:12px 16px;}
+  .nav-right span:not(:last-child)::after{content:"";}
+  .hero{padding:56px 18px 36px;}
+  .editor-section{padding:16px 14px 70px;}
+  .panel{padding:16px;}
+  .card-stage{max-width:240px;}
+  .action-row{max-width:100%;}
+  .action-row .btn-secondary{min-width:0;flex:1 1 45%;padding:13px 10px;font-size:13px;}
+}
+@media (max-width:400px){
+  .nav-right{font-size:11.5px;gap:10px;}
+}
+</style>
+</head>
+<body>
+
+<div class="bg-blobs" aria-hidden="true"><div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div></div>
+
+<header class="nav">
+  <div class="nav-brand"><div class="nav-mark">💳</div>NAMANE Design Studio<span class="nav-tag">BETA</span></div>
+  <div class="nav-right"><span>探索 <span>— 即將推出</span></span><span>我的卡片 <span>— 即將推出</span></span></div>
+</header>
+
+<section class="hero" id="hero">
+  <h1>NAMANE Design Studio</h1>
+  <div class="tagline"><span class="hl">Design.</span><span>Share.</span><span>Print.</span></div>
+  <p class="hero-sub">上傳一張照片，填寫姓名、學校等資訊，專屬於你的 NAMANE 學生證卡片馬上完成，還能直接分享到 Instagram 限時動態。</p>
+  <div class="hero-cta"><button class="btn btn-primary" id="startBtn">✨ 開始設計</button></div>
+  <div class="hero-hint">上傳照片 → 填寫資訊 → 完成，約 30 秒</div>
+</section>
+
+<section class="editor-section" id="editor">
+  <div class="editor-title">
+    <span class="editor-emoji">🪪</span>
+    <h2>偶像學生證</h2>
+  </div>
+  <p style="margin:2px 0 0;color:var(--text-1);font-size:13.5px;">最愛學生證卡片產生器</p>
+  <div class="editor-guide">💡 請上傳照片，並讓臉部對齊框內，就像證件照一樣。</div>
+
+  <div class="studio-grid">
+    <aside class="panel">
+      <h3>📷 照片</h3>
+      <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="上傳照片">
+        <div class="dz-empty"><div class="dz-icon">🖼️</div><div class="dz-title">將照片拖曳到這裡</div><div class="dz-sub">或點擊瀏覽檔案 — JPG / PNG</div></div>
+      </div>
+      <input type="file" id="fileInput" accept="image/*">
+      <div class="adjust-controls hidden" id="adjustControls">
+        <div class="label-row"><span>縮放</span><span id="zoomVal">140%</span></div>
+        <input type="range" id="zoomSlider" min="100" max="320" value="140">
+        <button class="btn btn-ghost" id="autoFitBtn" style="width:100%;margin-top:12px;">🪄 自動對齊位置</button>
+        <div class="drag-hint">在卡片上拖曳照片即可調整位置</div>
+      </div>
+    </aside>
+
+    <div class="panel preview-panel">
+      <h3>🪪 NAMANE 卡片預覽</h3>
+      <div class="card-stage">
+        <div class="namane-card" id="namaneCard">
+          <div class="card-photo-frame">
+            <img id="cardPhoto" alt="" style="display:none;">
+            <div class="empty-face" id="emptyFace">請上傳照片<br>即可預覽卡片</div>
+          </div>
+          <div class="card-chip"></div>
+
+          <div class="idcard-topband">
+            <div class="idcard-toplabel">學生證</div>
+            <div class="idcard-dash">—</div>
+            <div class="idcard-topsub">STUDENT ID CARD</div>
+          </div>
+          <div class="idcard-namewrap">
+            <div class="f-name" id="idcardName">김스탠</div>
+            <div class="f-detail" id="idcardDetail">KIM STAN · No. 2026034 · 실용음악과 1반</div>
+          </div>
+          <div class="idcard-sign show" id="idcardSign">Kim Stan</div>
+          <div class="idcard-botband"><div class="idcard-school" id="idcardSchool">NAMANE HIGH SCHOOL</div></div>
+
+          <div class="card-shine"></div>
+          <div class="processing-overlay" id="processingOverlay"><div class="spinner"></div><div class="processing-text">正在自動對齊照片位置…</div></div>
+        </div>
+      </div>
+
+      <div class="action-row">
+        <button class="btn btn-secondary" id="downloadBtn">⬇ 下載 PNG</button>
+        <button class="btn btn-secondary" id="shareBtn">📤 分享設計</button>
+        <button class="btn btn-secondary" id="orderBtn">💳 使用 NAMANE 卡享優惠購買</button>
+      </div>
+    </div>
+
+    <aside class="panel fields-panel">
+      <h3>📝 資訊輸入</h3>
+      <div id="fieldsForm"></div>
+    </aside>
+  </div>
+</section>
+
+<footer>NAMANE Card Design Studio — <b>內部原型 v0.1</b> · i-aurora · 尚未串接正式營運系統</footer>
+
+<canvas id="exportCanvas" width="630" height="1000" style="display:none;"></canvas>
+<div id="toastContainer"></div>
+
+<div class="modal-backdrop" id="shareModal">
+  <div class="modal">
+    <button class="modal-close" id="modalClose">✕</button>
+    <h3>分享我的卡片</h3>
+    <p>分享到 Instagram 限時動態，讓大家看看你的 NAMANE 學生證。</p>
+    <img id="shareModalPreview" class="modal-preview" alt="你的 NAMANE 卡片">
+    <button class="btn btn-instagram" id="instagramShareBtn">📸 分享到 Instagram 限時動態</button>
+    <div class="share-link-row"><input type="text" id="shareLinkInput" readonly><button class="btn btn-secondary" id="copyLinkBtn">複製連結</button></div>
+  </div>
+</div>
+
+<div class="modal-backdrop" id="orderModal">
+  <div class="modal">
+    <button class="modal-close" id="orderModalClose">✕</button>
+    <h3>💳 使用 NAMANE 卡享優惠購買</h3>
+    <p>前往連結，使用 NAMANE 卡即可享有這個設計的專屬優惠購買方案。</p>
+    <button class="btn btn-app" id="orderModalGo">立即前往</button>
+  </div>
+</div>
+
+<script>
+(function(){
+"use strict";
+
+/* TODO: replace with the real NAMANE app store / deep link URL once provided */
+const NAMANE_APP_LINK = 'https://namane.app';
+
+const TEMPLATE = {
+  guide:'請上傳照片，並讓臉部對齊框內，就像證件照一樣。', autoFit:{x:0,y:0,scale:1.15},
+  fields:[
+    {key:'name', label:'姓名', type:'text', placeholder:'例：金스탠 / 王小明', default:'김스탠'},
+    {key:'engName', label:'英文姓名', type:'text', default:'KIM STAN'},
+    {key:'studentId', label:'學號', type:'text', default:'2026034'},
+    {key:'dept', label:'科系／班級', type:'text', default:'實用音樂科 1班'},
+    {key:'school', label:'學校名稱', type:'text', default:'NAMANE HIGH SCHOOL'},
+    {key:'decoSign', label:'簽名裝飾', type:'checkbox', default:true},
+  ]
+};
+
+const state = { photo:{x:0,y:0,scale:1,src:null}, fields:{}, dragging:false };
+
+/* refs */
+const $ = id => document.getElementById(id);
+const dropzone = $('dropzone'), fileInput = $('fileInput');
+const adjustControls = $('adjustControls'), zoomSlider = $('zoomSlider'), zoomVal = $('zoomVal'), autoFitBtn = $('autoFitBtn');
+const cardPhoto = $('cardPhoto'), emptyFace = $('emptyFace'), namaneCard = $('namaneCard');
+const fieldsForm = $('fieldsForm');
+const downloadBtn = $('downloadBtn'), shareBtn = $('shareBtn'), orderBtn = $('orderBtn');
+const processingOverlay = $('processingOverlay');
+const cardNameEl = $('cardName');
+const idcardSchool = $('idcardSchool'), idcardName = $('idcardName'), idcardDetail = $('idcardDetail'), idcardSign = $('idcardSign');
+const exportCanvas = $('exportCanvas');
+const shareModal = $('shareModal'), shareModalPreview = $('shareModalPreview'), shareLinkInput = $('shareLinkInput');
+const orderModal = $('orderModal');
+let lastBlob = null;
+
+function roundRectPath(ctx,x,y,w,h,r){ ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+function drawSpacedText(ctx,text,cx,y,spacing){
+  const chars = String(text).split('');
+  const widths = chars.map(ch=>ctx.measureText(ch).width);
+  const total = widths.reduce((a,b)=>a+b,0) + spacing*(chars.length-1);
+  let x = cx - total/2;
+  const prevAlign = ctx.textAlign; ctx.textAlign='left';
+  chars.forEach((ch,i)=>{ ctx.fillText(ch, x, y); x += widths[i] + spacing; });
+  ctx.textAlign = prevAlign;
+}
+function escapeAttr(s){ return String(s==null?'':s).replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/</g,'&lt;'); }
+function showToast(msg, icon){
+  icon = icon || '✅';
+  const container = $('toastContainer');
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.innerHTML = '<span>'+icon+'</span><span>'+msg+'</span>';
+  container.appendChild(el);
+  setTimeout(()=>{ el.classList.add('out'); setTimeout(()=>el.remove(), 320); }, 2800);
+}
+
+/* ================= fields form ================= */
+function buildFieldsForm(){
+  fieldsForm.innerHTML = TEMPLATE.fields.map(f=>{
+    if(f.type==='checkbox'){
+      return '<div class="field-row"><label class="field-checkbox"><input type="checkbox" data-key="'+f.key+'" '+(state.fields[f.key]?'checked':'')+'> '+f.label+'</label></div>';
+    }
+    return '<div class="field-row"><label class="field-label">'+f.label+'</label><input type="text" data-key="'+f.key+'" placeholder="'+escapeAttr(f.placeholder)+'" value="'+escapeAttr(state.fields[f.key])+'"></div>';
+  }).join('');
+  fieldsForm.querySelectorAll('[data-key]').forEach(el=>{
+    el.addEventListener('input', onFieldChange);
+    el.addEventListener('change', onFieldChange);
+  });
+}
+function onFieldChange(e){
+  const key = e.target.dataset.key;
+  state.fields[key] = e.target.type==='checkbox' ? e.target.checked : e.target.value;
+  applyFieldsToPreview();
+}
+function applyFieldsToPreview(){
+  idcardSchool.textContent = state.fields.school || 'NAMANE HIGH SCHOOL';
+  idcardName.textContent = state.fields.name || '';
+  idcardDetail.textContent = [state.fields.engName, state.fields.studentId ? ('No. '+state.fields.studentId) : '', state.fields.dept].filter(Boolean).join('  ·  ');
+  idcardSign.classList.toggle('show', !!state.fields.decoSign);
+  idcardSign.textContent = state.fields.name || 'Signature';
+}
+
+TEMPLATE.fields.forEach(f=>{ state.fields[f.key] = f.default!==undefined ? f.default : (f.type==='checkbox'?true:''); });
+buildFieldsForm();
+applyFieldsToPreview();
+
+/* ================= photo upload ================= */
+function setPhoto(dataUrl){
+  state.photo.src = dataUrl;
+  cardPhoto.src = dataUrl;
+  cardPhoto.style.display = 'block';
+  emptyFace.style.display = 'none';
+
+  dropzone.classList.add('has-photo');
+  dropzone.innerHTML = '<img src="'+dataUrl+'" alt="已上傳照片"><button class="dz-remove" id="dzRemove" aria-label="移除照片">✕</button>';
+  $('dzRemove').addEventListener('click', (e)=>{ e.stopPropagation(); resetPhoto(); });
+
+  adjustControls.classList.remove('hidden');
+  downloadBtn.disabled = false; shareBtn.disabled = false;
+
+  processingOverlay.classList.add('active');
+  setTimeout(()=>{
+    processingOverlay.classList.remove('active');
+    state.photo.x=TEMPLATE.autoFit.x; state.photo.y=TEMPLATE.autoFit.y; state.photo.scale=TEMPLATE.autoFit.scale;
+    updatePhotoTransform();
+    namaneCard.classList.remove('just-updated'); void namaneCard.offsetWidth; namaneCard.classList.add('just-updated');
+    showToast('已自動對齊照片位置 — 需要的話可以拖曳調整', '🪄');
+  }, 700);
+}
+function resetPhoto(){
+  state.photo.src = null;
+  cardPhoto.src=''; cardPhoto.style.display='none'; cardPhoto.style.transform='';
+  emptyFace.style.display='flex';
+  dropzone.classList.remove('has-photo');
+  dropzone.innerHTML = '<div class="dz-empty"><div class="dz-icon">🖼️</div><div class="dz-title">將照片拖曳到這裡</div><div class="dz-sub">或點擊瀏覽檔案 — JPG / PNG</div></div>';
+  adjustControls.classList.add('hidden');
+  downloadBtn.disabled = true; shareBtn.disabled = true;
+}
+function readFile(file){
+  if(!file || !file.type.startsWith('image/')){ showToast('請選擇圖片檔案', '⚠️'); return; }
+  const reader = new FileReader();
+  reader.onload = e => setPhoto(e.target.result);
+  reader.readAsDataURL(file);
+}
+dropzone.addEventListener('click', ()=>{ if(!state.photo.src) fileInput.click(); });
+dropzone.addEventListener('keydown', e=>{ if((e.key==='Enter'||e.key===' ') && !state.photo.src) fileInput.click(); });
+fileInput.addEventListener('change', e=> readFile(e.target.files[0]) );
+['dragenter','dragover'].forEach(evt=> dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.add('dragover'); }));
+['dragleave','drop'].forEach(evt=> dropzone.addEventListener(evt, e=>{ e.preventDefault(); dropzone.classList.remove('dragover'); }));
+dropzone.addEventListener('drop', e=> readFile(e.dataTransfer.files && e.dataTransfer.files[0]) );
+
+/* ================= pan / zoom ================= */
+function updatePhotoTransform(){
+  cardPhoto.style.transform = 'translate('+state.photo.x+'px,'+state.photo.y+'px) scale('+state.photo.scale+')';
+  zoomSlider.value = Math.round(state.photo.scale*100);
+  zoomVal.textContent = Math.round(state.photo.scale*100)+'%';
+}
+let dragStartX=0, dragStartY=0, dragBaseX=0, dragBaseY=0;
+namaneCard.addEventListener('pointerdown', e=>{
+  if(!state.photo.src) return;
+  state.dragging = true;
+  try{ namaneCard.setPointerCapture(e.pointerId); }catch(err){}
+  dragStartX = e.clientX; dragStartY = e.clientY; dragBaseX = state.photo.x; dragBaseY = state.photo.y;
+});
+namaneCard.addEventListener('pointermove', e=>{
+  if(!state.dragging) return;
+  state.photo.x = dragBaseX + (e.clientX - dragStartX);
+  state.photo.y = dragBaseY + (e.clientY - dragStartY);
+  updatePhotoTransform();
+});
+['pointerup','pointerleave','pointercancel'].forEach(evt=> namaneCard.addEventListener(evt, ()=> state.dragging=false));
+zoomSlider.addEventListener('input', e=>{ state.photo.scale = e.target.value/100; updatePhotoTransform(); });
+autoFitBtn.addEventListener('click', ()=>{
+  state.photo.x=TEMPLATE.autoFit.x; state.photo.y=TEMPLATE.autoFit.y; state.photo.scale=TEMPLATE.autoFit.scale;
+  updatePhotoTransform();
+  namaneCard.classList.remove('just-updated'); void namaneCard.offsetWidth; namaneCard.classList.add('just-updated');
+  showToast('已依範本重新對齊位置', '🪄');
+});
+
+/* ================= export canvas ================= */
+function buildExportCanvas(onReady){
+  const ctx = exportCanvas.getContext('2d'); const W = exportCanvas.width, H = exportCanvas.height;
+  const REF = 290; const S = W / REF;
+  ctx.clearRect(0,0,W,H);
+  roundRectPath(ctx,0,0,W,H,0); ctx.save(); ctx.clip();
+  ctx.fillStyle = '#f4f2fb'; ctx.fillRect(0,0,W,H);
+
+  function drawChip(){
+    const cw=W*0.17, ch=H*0.08, cx=W*0.5-cw/2, cy=H*0.78-ch/2;
+    const chipGrad = ctx.createLinearGradient(cx,cy,cx+cw,cy+ch);
+    chipGrad.addColorStop(0,'#ffe9a8'); chipGrad.addColorStop(1,'#d8b25a');
+    ctx.fillStyle=chipGrad; roundRectPath(ctx,cx,cy,cw,ch,Math.min(cw,ch)*0.28); ctx.fill();
+  }
+
+  function drawForeground(){
+    const topBandH = H*0.15, botBandH = H*0.09;
+    let bandGrad = ctx.createLinearGradient(0,0,W,topBandH);
+    bandGrad.addColorStop(0,'#7c4fe0'); bandGrad.addColorStop(1,'#4c1fb0');
+    ctx.fillStyle = bandGrad; ctx.fillRect(0,0,W,topBandH);
+    ctx.fillStyle='#fff'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif'; ctx.textAlign='center';
+    drawSpacedText(ctx,'學生證', W/2, H*0.065, 4*S);
+    ctx.font=(9*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.fillText('—', W/2, H*0.09);
+    ctx.font='700 '+(7*S)+'px -apple-system, sans-serif'; ctx.fillStyle='rgba(255,255,255,0.75)';
+    drawSpacedText(ctx,'STUDENT ID CARD', W/2, H*0.115, 1.5*S);
+
+    ctx.fillStyle='#221c3a'; ctx.font='800 '+(15*S)+'px -apple-system, sans-serif';
+    drawSpacedText(ctx, state.fields.name||'', W/2, H*0.665, 8*S);
+    ctx.font=(6.8*S)+'px -apple-system, sans-serif'; ctx.fillStyle='#6b7190';
+    const detail = [state.fields.engName, state.fields.studentId?('No. '+state.fields.studentId):'', state.fields.dept].filter(Boolean).join('  ·  ');
+    ctx.fillText(detail, W/2, H*0.695);
+    ctx.textAlign='left';
+
+    if(state.fields.decoSign){
+      ctx.font='italic 700 '+(11*S)+'px "Brush Script MT", cursive'; ctx.fillStyle='#6b7190';
+      ctx.fillText(state.fields.name || 'Signature', W*0.08, H*0.845);
+    }
+
+    bandGrad = ctx.createLinearGradient(0,H-botBandH,0,H);
+    bandGrad.addColorStop(0,'#7c4fe0'); bandGrad.addColorStop(1,'#4c1fb0');
+    ctx.fillStyle = bandGrad; ctx.fillRect(0,H-botBandH,W,botBandH);
+    const schoolText = state.fields.school || 'NAMANE HIGH SCHOOL';
+    let schoolFontPx = 9.5*S;
+    const schoolMaxWidth = W*0.7;
+    ctx.textAlign='center';
+    ctx.font='800 '+schoolFontPx+'px -apple-system, sans-serif';
+    while(ctx.measureText(schoolText).width > schoolMaxWidth && schoolFontPx > 5*S){
+      schoolFontPx -= 0.5*S;
+      ctx.font='800 '+schoolFontPx+'px -apple-system, sans-serif';
+    }
+    ctx.fillStyle='#fff';
+    ctx.fillText(schoolText, W/2, H-botBandH*0.4);
+    ctx.textAlign='left';
+    drawChip();
+  }
+
+  function finish(){ ctx.restore(); onReady(); }
+
+  if(!state.photo.src){ finish(); return; }
+
+  const img = new Image();
+  img.onload = ()=>{
+    ctx.save();
+    const pw=W*0.58, ph=H*0.44, px=(W-pw)/2, py=H*0.18, radius=8*S;
+    roundRectPath(ctx, px, py, pw, ph, radius); ctx.clip();
+    const ir = img.naturalWidth / img.naturalHeight, cr = pw/ph;
+    let dw,dh; if(ir>cr){ dh=ph; dw=ph*ir; } else { dw=pw; dh=pw/ir; }
+    const scaleFactor = W / REF;
+    const tx = state.photo.x * scaleFactor, ty = state.photo.y * scaleFactor;
+    ctx.translate(px+pw/2+tx, py+ph/2+ty);
+    ctx.scale(state.photo.scale, state.photo.scale);
+    ctx.drawImage(img, -dw/2, -dh/2, dw, dh);
+    ctx.restore();
+
+    drawForeground();
+    finish();
+  };
+  img.src = state.photo.src;
+}
+function withExportedCard(callback){
+  buildExportCanvas(()=>{
+    exportCanvas.toBlob(blob=>{
+      const dataUrl = exportCanvas.toDataURL('image/png');
+      callback(dataUrl, blob);
+    }, 'image/png');
+  });
+}
+
+function needsPhotoButMissing(){ return !state.photo.src; }
+
+/* ================= download ================= */
+downloadBtn.addEventListener('click', ()=>{
+  if(needsPhotoButMissing()){ showToast('請先上傳照片', '⚠️'); return; }
+  withExportedCard((dataUrl)=>{
+    const a = document.createElement('a'); a.href=dataUrl; a.download='namane-card-'+Date.now()+'.png';
+    document.body.appendChild(a); a.click(); a.remove();
+    showToast('卡片已下載為 PNG', '⬇');
+  });
+});
+
+/* ================= share (Instagram Story) ================= */
+function openShareModal(dataUrl, blob){
+  shareModalPreview.src = dataUrl;
+  shareLinkInput.value = 'https://namane.studio/c/' + Math.random().toString(36).slice(2,10);
+  lastBlob = blob;
+  shareModal.classList.add('open');
+}
+function closeShareModal(){ shareModal.classList.remove('open'); }
+$('modalClose').addEventListener('click', closeShareModal);
+shareModal.addEventListener('click', e=>{ if(e.target===shareModal) closeShareModal(); });
+
+$('copyLinkBtn').addEventListener('click', ()=>{
+  shareLinkInput.select();
+  if(navigator.clipboard) navigator.clipboard.writeText(shareLinkInput.value).then(()=>showToast('連結已複製', '🔗')).catch(()=>showToast('連結已複製', '🔗'));
+});
+
+$('instagramShareBtn').addEventListener('click', async ()=>{
+  if(navigator.share && navigator.canShare && lastBlob){
+    const file = new File([lastBlob], 'namane-card.png', { type:'image/png' });
+    if(navigator.canShare({ files:[file] })){
+      try{
+        await navigator.share({ files:[file], title:'NAMANE 學生證', text:'我的 NAMANE 學生證卡片！' });
+        closeShareModal();
+      }catch(err){ /* user cancelled share sheet — no-op */ }
+      return;
+    }
+  }
+  const a = document.createElement('a'); a.href = shareModalPreview.src; a.download = 'namane-card-'+Date.now()+'.png';
+  document.body.appendChild(a); a.click(); a.remove();
+  window.open('https://www.instagram.com/', '_blank');
+  showToast('圖片已下載，請在 Instagram 開啟限時動態並從相簿選擇上傳', '📸');
+});
+
+shareBtn.addEventListener('click', ()=>{
+  if(needsPhotoButMissing()){ showToast('請先上傳照片', '⚠️'); return; }
+  withExportedCard((dataUrl, blob)=> openShareModal(dataUrl, blob));
+});
+
+/* ================= order (NAMANE app) ================= */
+orderBtn.addEventListener('click', ()=> orderModal.classList.add('open') );
+$('orderModalClose').addEventListener('click', ()=> orderModal.classList.remove('open') );
+orderModal.addEventListener('click', e=>{ if(e.target===orderModal) orderModal.classList.remove('open'); });
+$('orderModalGo').addEventListener('click', ()=>{
+  window.open(NAMANE_APP_LINK, '_blank');
+  orderModal.classList.remove('open');
+});
+
+document.addEventListener('keydown', e=>{ if(e.key==='Escape'){ closeShareModal(); orderModal.classList.remove('open'); } });
+
+/* ================= nav ================= */
+$('startBtn').addEventListener('click', ()=> $('editor').scrollIntoView({behavior:'smooth'}) );
+
+/* ================= reveal on scroll ================= */
+const io = new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{ if(entry.isIntersecting){ entry.target.classList.add('in'); io.unobserve(entry.target); } });
+}, {threshold:0.12});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+downloadBtn.disabled = true; shareBtn.disabled = true;
+
+})();
+</script>
+</body>
+</html>
